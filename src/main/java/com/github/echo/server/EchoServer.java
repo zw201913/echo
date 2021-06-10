@@ -66,7 +66,7 @@ public class EchoServer {
                             new ChannelInitializer<SocketChannel>() {
                                 @Override
                                 protected void initChannel(SocketChannel sc) throws Exception {
-
+                                    // todo
                                 }
                             })
                     // 异步绑定服务器，阻塞直至绑定成功
