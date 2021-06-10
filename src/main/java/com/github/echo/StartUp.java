@@ -7,6 +7,7 @@ import com.github.echo.server.EchoServer;
 import com.github.echo.server.EchoVersion;
 import com.github.echo.util.CommandLineUtil;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
@@ -24,6 +25,7 @@ import java.util.Properties;
  * @date: 2021/6/7 下午2:36
  * @description:
  */
+@Slf4j
 public class StartUp {
 
     private static final String ECHO_SERVER_NAME = "EchoServer";
@@ -39,6 +41,7 @@ public class StartUp {
 
     /**
      * 启动函数
+     *
      * @param args
      */
     private static void start(String[] args) {
@@ -98,6 +101,7 @@ public class StartUp {
         for (Map.Entry<Object, Object> e : properties.entrySet()) {
             configMap.put(String.valueOf(e.getKey()), String.valueOf(e.getValue()));
         }
+        log.info("配置文件{}加载完成", configFile);
         return configMap;
     }
 

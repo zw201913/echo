@@ -9,6 +9,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -18,6 +21,7 @@ import java.util.Map;
  * @date: 2021/5/27 上午10:46
  * @description:
  */
+@Slf4j
 public class EchoServer {
 
     private Map<String, String> configMap;
@@ -41,9 +45,7 @@ public class EchoServer {
                 CastUtil.castInt(
                         this.configMap.get(Const.SERVER_WORK_THREAD_KEY),
                         Const.DEFAULT_SERVER_WORK_THREAD);
-        /**
-         * 已完成三次握手连接等待队列大小
-         */
+        /** 已完成三次握手连接等待队列大小 */
         int serverSoBacklog =
                 CastUtil.castInt(
                         this.configMap.get(Const.SERVER_SO_BACKLOG_KEY),
@@ -71,6 +73,12 @@ public class EchoServer {
                             })
                     // 异步绑定服务器，阻塞直至绑定成功
                     .bind()
+                    .addListener(
+                            future -> {
+                                if (future.isDone()) {
+                                    log.info("isDone!!!");
+                                }
+                            })
                     .sync()
 
                     // 获取channel的CloseFuture对象，并且阻塞线程直至程序结束，否则会一直监听指定端口
